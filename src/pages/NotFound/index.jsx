@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Box, Button, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -9,6 +7,7 @@ const NotFound = () => {
   const navigate = useNavigate();
   return (
     <Box
+      data-testid="notFound"
       sx={{
         display: "flex",
         flexDirection: "column",

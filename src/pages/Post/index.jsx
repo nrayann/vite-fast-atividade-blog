@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Grid, Typography } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
@@ -12,49 +12,50 @@ const linkStyle = {
   color: "#FFFFFF",
 };
 
-/**
- * Renderizar condicionalmente o componente Loading baseado no estado isLoading
- *
- * Criar um state para post e um state para postCreator, ambos devem ser inicializados com null
- *
- * Utilizar o useEffect para assim que tiver o id do post executar o método getPost
- * Utilizar o useEffect para assim que tiver o post executar o método getPostCreator
- *
- * Renderizar os valores title, photo_url e content_html nos locais apropriados
- *
- * Renderizar os crédios do post chamando o método getCredids no local apropriado
- */
-
 export default function Post() {
   const { id } = useParams();
+  const [post, setPost] = useState(null);
+  const [postCreator, setPostCreator] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getPost = async () => {
-    try {
-      const response = await fetch(
-        `https://api.slingacademy.com/v1/sample-data/blog-posts/${id}`
-      );
-      const data = await response.json();
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const response = await fetch(
+          `https://api.slingacademy.com/v1/sample-data/blog-posts/${id}`
+        );
+        const data = await response.json();
 
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
+        setPost(data.blog);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    };
+
+    getPost();
+  }, [id]);
+
+  useEffect(() => {
+    const getPostCreator = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(
+          `https://api.slingacademy.com/v1/sample-data/users/${post.user_id}`
+        );
+        const data = await response.json();
+
+        setPostCreator(data.user);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    };
+
+    if (post) {
+      getPostCreator();
     }
-  };
-
-  const getPostCreator = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `https://api.slingacademy.com/v1/sample-data/users/[user_id]`
-      );
-      const data = await response.json();
-
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
+  }, [post]);
 
   const getCredids = (post, postCreator) =>
     `${postCreator.first_name} ${postCreator.last_name}, ${formatPostDate(
@@ -70,18 +71,20 @@ export default function Post() {
           <Typography>Voltar</Typography>
         </Link>
       </Grid>
-      <Loading />
-      <Grid item>
-        <Typography variant="h3" mb={4}>
-          {/** title */}
-        </Typography>
-        <img width="100%" src={"" /** photo_url */} alt="" />
-        <PostContent content={"" /** content_html */} />
-        <Typography>
-          <strong>Criado por: </strong>
-          {/** utilizar o método getCredids */}
-        </Typography>
-      </Grid>
+      {isLoading && <Loading />}
+      {post && postCreator && (
+        <Grid item>
+          <Typography variant="h3" mb={4}>
+            {post.title}
+          </Typography>
+          <img width="100%" src={post.photo_url} alt={post.title} />
+          <PostContent content={post.content_html} />
+          <Typography>
+            <strong>Criado por: </strong>
+            {getCredids(post, postCreator)}
+          </Typography>
+        </Grid>
+      )}
     </Grid>
   );
 }

@@ -23,18 +23,6 @@ const defaultFormData = {
   isHuman: false,
 };
 
-/**
- * Renderizar condicionalmente o componente Loading baseado no estado isLoading
- *
- * Adicionar name e evento onChange nos componentes TextField para funcionar com o método handleChange
- *
- * Desabilitar componente Button condicionalmente com a props disabled quando isLoading for true ou o formulário não estiver válido
- *
- * Corrigir o método getAlert com renderização condicional baseada no valor de errorMessage
- *
- * Executar o método sendData quando clicar no botão Enviar
- */
-
 export default function Contact() {
   const [formData, setFormData] = useState(defaultFormData);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -100,16 +88,21 @@ export default function Contact() {
     !!(formData.name && formData.email && formData.message && formData.isHuman);
 
   const getAlert = () => {
-    /** Renderizar o componente Alert correto de acordo com o valor de errorMessage */
     return (
       <div>
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Erro ao enviar mensagem
-        </Alert>
-
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Mensagem enviada com sucesso
-        </Alert>
+        {errorMessage ? (
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            Erro ao enviar mensagem
+          </Alert>
+        ) : (
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Mensagem enviada com sucesso
+          </Alert>
+        )}
       </div>
     );
   };
@@ -123,44 +116,72 @@ export default function Contact() {
       >
         {getAlert()}
       </Snackbar>
-      <Loading />
+      {isLoading && <Loading />}
       <Grid container rowGap={2}>
         <Grid item xs={12}>
           <TextField
             value={formData.name}
+            name="name"
+            onChange={(event) => handleChange(event)}
             label="Nome"
             variant="standard"
             sx={inputStyle}
+            inputProps={{
+              "data-testid": "nameInput",
+            }}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             value={formData.email}
+            name="email"
+            onChange={(event) => handleChange(event)}
             label="E-mail"
             variant="standard"
             sx={inputStyle}
+            inputProps={{
+              "data-testid": "emailInput",
+            }}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             value={formData.message}
+            name="message"
+            onChange={(event) => handleChange(event)}
             label="Mensagem"
             variant="standard"
             multiline
             minRows={3}
             sx={inputStyle}
+            inputProps={{
+              "data-testid": "messageInput",
+            }}
           />
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
             name="isHuman"
-            onChange={handleChange}
             label="Sou humano"
-            control={<Checkbox checked={formData.isHuman} />}
+            onChange={handleChange}
+            control={
+              <Checkbox
+                checked={formData.isHuman}
+                inputProps={{
+                  "data-testid": "isHumanInput",
+                }}
+              />
+            }
           />
         </Grid>
         <Grid item xs={12}>
-          <Button variant="outlined">Enviar</Button>
+          <Button
+            disabled={!isFormValid() || isLoading}
+            onClick={sendData}
+            variant="outlined"
+          >
+            Enviar
+          </Button>
         </Grid>
       </Grid>
     </>
