@@ -22,6 +22,6 @@ describe("NotFound compnent", () => {
     expect(screen.getByTestId("notFound")).toBeInTheDocument();
     expect(screen.getByText("404")).toBeInTheDocument();
     expect(screen.getByText("Página não encontrada")).toBeInTheDocument();
-    expect(mockUseNavigate).toBeCalledWith("/");
+    expect(mockUseNavigate).toHaveBeenCalledWith("/");
   });
 });

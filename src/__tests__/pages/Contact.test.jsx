@@ -41,7 +41,7 @@ describe("Contact component", () => {
     fireEvent.click(screen.getByText("Enviar"));
 
     await waitFor(() =>
-      expect(fetch).toBeCalledWith(
+      expect(fetch).toHaveBeenCalledWith(
         "https://fast-react-api.onrender.com/contact",
         {
           method: "post",
@@ -74,7 +74,7 @@ describe("Contact component", () => {
     fireEvent.click(screen.getByText("Enviar"));
 
     await waitFor(() =>
-      expect(fetch).toBeCalledWith(
+      expect(fetch).toHaveBeenCalledWith(
         "https://fast-react-api.onrender.com/contact",
         {
           method: "post",
@@ -103,7 +103,7 @@ describe("Contact component", () => {
     fireEvent.click(screen.getByText("Enviar"));
 
     await waitFor(() =>
-      expect(fetch).toBeCalledWith(
+      expect(fetch).toHaveBeenCalledWith(
         "https://fast-react-api.onrender.com/contact",
         {
           method: "post",

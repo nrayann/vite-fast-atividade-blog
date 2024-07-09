@@ -18,7 +18,7 @@ describe("TopBar compnent", () => {
     );
 
     fireEvent.click(screen.getByText("BLOG"));
-    expect(mockUseNavigate).toBeCalledWith("/");
+    expect(mockUseNavigate).toHaveBeenCalledWith("/");
 
     const navLink = screen.getByText("Contato");
     expect(navLink.getAttribute("href")).toBe("/contato");
@@ -34,7 +34,7 @@ describe("TopBar compnent", () => {
     );
 
     fireEvent.click(screen.getByText("BLOG"));
-    expect(mockUseNavigate).toBeCalledWith("/");
+    expect(mockUseNavigate).toHaveBeenCalledWith("/");
   });
 
   test("Contact link should have path to contact", () => {
