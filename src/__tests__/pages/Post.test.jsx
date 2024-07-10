@@ -33,7 +33,27 @@ describe("Post component", () => {
 
     await waitFor(() => {
       expect(screen.getByText("Defense the travel.")).toBeInTheDocument();
+      expect(screen.queryByTestId("post")).toBeInTheDocument();
     });
+    expect.assertions(2);
+  });
+
+  test("should not render a post if request fails", async () => {
+    global.fetch = jest
+      .fn()
+      .mockImplementationOnce(() => Promise.reject(new Error("...")))
+      .mockImplementationOnce(() => Promise.reject(new Error("...")));
+
+    render(
+      <BrowserRouter>
+        <Post />
+      </BrowserRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("post")).not.toBeInTheDocument();
+    });
+    expect.assertions(1);
   });
 });
 

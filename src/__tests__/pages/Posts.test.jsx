@@ -21,6 +21,20 @@ describe("Posts component", () => {
       expect(screen.getAllByTestId("postItem").length).toBe(2);
     });
   });
+
+  test("should not render a list of posts if request fails", async () => {
+    global.fetch = jest.fn(() => Promise.reject(new Error("...")));
+
+    render(
+      <BrowserRouter>
+        <Posts />
+      </BrowserRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryAllByTestId("postItem").length).toBe(0);
+    });
+  });
 });
 
 const blogsMockResponse = {
