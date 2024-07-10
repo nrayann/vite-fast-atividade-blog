@@ -73,7 +73,7 @@ export default function Post() {
       </Grid>
       {isLoading && <Loading />}
       {post && postCreator && (
-        <Grid item>
+        <Grid item data-testid="post">
           <Typography variant="h3" mb={4}>
             {post.title}
           </Typography>

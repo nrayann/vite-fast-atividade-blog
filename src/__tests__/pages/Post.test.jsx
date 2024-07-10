@@ -12,6 +12,8 @@ jest.mock("react-router-dom", () => ({
 
 describe("Post component", () => {
   test("should render a post", async () => {});
+
+  test("should not render a post if request fails", async () => {});
 });
 
 const blogMockResponse = {
