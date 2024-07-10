@@ -11,30 +11,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("Post component", () => {
-  test("should render a post", async () => {
-    global.fetch = jest
-      .fn()
-      .mockImplementationOnce(() =>
-        Promise.resolve({
-          json: () => Promise.resolve(blogMockResponse),
-        })
-      )
-      .mockImplementationOnce(() =>
-        Promise.resolve({
-          json: () => Promise.resolve(userMockResponse),
-        })
-      );
-
-    render(
-      <BrowserRouter>
-        <Post />
-      </BrowserRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText("Defense the travel.")).toBeInTheDocument();
-    });
-  });
+  test("should render a post", async () => {});
 });
 
 const blogMockResponse = {

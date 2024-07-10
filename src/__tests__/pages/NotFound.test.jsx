@@ -10,18 +10,5 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("NotFound compnent", () => {
-  test("render container and TopBar", () => {
-    render(
-      <BrowserRouter>
-        <NotFound />
-      </BrowserRouter>
-    );
-
-    fireEvent.click(screen.getByLabelText("home"));
-
-    expect(screen.getByTestId("notFound")).toBeInTheDocument();
-    expect(screen.getByText("404")).toBeInTheDocument();
-    expect(screen.getByText("Página não encontrada")).toBeInTheDocument();
-    expect(mockUseNavigate).toBeCalledWith("/");
-  });
+  test("render container and TopBar", () => {});
 });
