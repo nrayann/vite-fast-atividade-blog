@@ -53,6 +53,14 @@ describe("Contact component", () => {
         }
       )
     );
+
+    await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Mensagem enviada com sucesso"
+    );
+
+    expect.assertions(3);
   });
 
   test("should make a unsuccessful request with form data values when click on send data", async () => {
@@ -86,6 +94,14 @@ describe("Contact component", () => {
         }
       )
     );
+
+    await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Erro ao enviar mensagem"
+    );
+
+    expect.assertions(3);
   });
 
   test("should make a unsuccessful request with form data values when click on send data 2", async () => {
@@ -115,6 +131,14 @@ describe("Contact component", () => {
         }
       )
     );
+
+    await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Erro ao enviar mensagem"
+    );
+
+    expect.assertions(3);
   });
 });
 
