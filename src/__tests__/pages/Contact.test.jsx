@@ -13,38 +13,3 @@ describe("Contact component", () => {
 
   test("should make a unsuccessful request with form data values when click on send data 2", async () => {});
 });
-
-const defaultFormDataValues = {
-  name: "rayann",
-  email: "rncsn@cesar.org.br",
-  message: "mensagem...",
-  isHuman: true,
-};
-
-const fillForm = (name, email, message, isHuman) => {
-  const nameInput = screen.getByTestId("nameInput");
-  fireEvent.change(nameInput, {
-    target: {
-      value: name,
-    },
-  });
-
-  const emailInput = screen.getByTestId("emailInput");
-  fireEvent.change(emailInput, {
-    target: {
-      value: email,
-    },
-  });
-
-  const messageInput = screen.getByTestId("messageInput");
-  fireEvent.change(messageInput, {
-    target: {
-      value: message,
-    },
-  });
-
-  if (isHuman) {
-    const isHumanInput = screen.getByTestId("isHumanInput");
-    fireEvent.click(isHumanInput);
-  }
-};
