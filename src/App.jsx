@@ -4,6 +4,7 @@ import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 
 import Posts from "./pages/Posts";
 import Post from "./pages/Post";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 import Layout from "./components/Layout";
@@ -30,6 +31,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Posts />} />
               <Route path="/:id/:slug" element={<Post />} />
+              <Route path="/contato" element={<Contact />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
