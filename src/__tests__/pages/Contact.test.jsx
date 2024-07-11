@@ -1,4 +1,3 @@
-import { BrowserRouter } from "react-router-dom";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Contact from "../../pages/Contact";
 
@@ -10,14 +9,31 @@ describe("Contact component", () => {
   });
 
   test("send button should not be disabled if form is valid", () => {
-    render(
-      <BrowserRouter>
-        <Contact />
-      </BrowserRouter>
-    );
+    render(<Contact />);
 
-    const { name, email, message, isHuman } = defaultFormDataValues;
-    fillForm(name, email, message, isHuman);
+    const nameInput = screen.getByTestId("nameInput");
+    fireEvent.change(nameInput, {
+      target: {
+        value: "rayann",
+      },
+    });
+
+    const emailInput = screen.getByTestId("emailInput");
+    fireEvent.change(emailInput, {
+      target: {
+        value: "rncsn@cesar.org.br",
+      },
+    });
+
+    const messageInput = screen.getByTestId("messageInput");
+    fireEvent.change(messageInput, {
+      target: {
+        value: "mensagem...",
+      },
+    });
+
+    const isHumanInput = screen.getByTestId("isHumanInput");
+    fireEvent.click(isHumanInput);
 
     expect(screen.getByText("Enviar")).not.toHaveAttribute("disabled");
   });
@@ -29,11 +45,7 @@ describe("Contact component", () => {
       })
     );
 
-    render(
-      <BrowserRouter>
-        <Contact />
-      </BrowserRouter>
-    );
+    render(<Contact />);
 
     const { name, email, message, isHuman } = defaultFormDataValues;
     fillForm(name, email, message, isHuman);
@@ -70,11 +82,7 @@ describe("Contact component", () => {
       })
     );
 
-    render(
-      <BrowserRouter>
-        <Contact />
-      </BrowserRouter>
-    );
+    render(<Contact />);
 
     const { name, email, message, isHuman } = defaultFormDataValues;
     fillForm(name, email, message, isHuman);
@@ -107,11 +115,7 @@ describe("Contact component", () => {
   test("should make a unsuccessful request with form data values when click on send data 2", async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error("...")));
 
-    render(
-      <BrowserRouter>
-        <Contact />
-      </BrowserRouter>
-    );
+    render(<Contact />);
 
     const { name, email, message, isHuman } = defaultFormDataValues;
     fillForm(name, email, message, isHuman);
